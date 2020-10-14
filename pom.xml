@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.zalando.ep</groupId>
-    <artifactId>zalenium</artifactId>
-    <version>3.141.59z</version>
-    <name>Zalenium</name>
-    <description>An on-demand, dynamic local Selenium Grid with an extension to a cloud testing platform.</description>
+    <groupId>org.iqalab</groupId>
+    <artifactId>slim-zalenium</artifactId>
+    <version>3.141.59-1.0.0</version>
+    <name>Slim Zalenium</name>
+    <description>An customised version based on Zalando open sourced project Zalenium 3.141.59z</description>
 
     <organization>
         <name>Zalando SE</name>
@@ -25,9 +25,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/zalando/zalenium</url>
-        <connection>scm:git:https://github.com/zalando/zalenium</connection>
-        <developerConnection>scm:git:git@github.com:zalando/zalenium.git</developerConnection>
+        <url>https://github.com/xuanzhaopeng/slim-zalenium</url>
+        <connection>scm:git:https://github.com/xuanzhaopeng/slim-zalenium</connection>
+        <developerConnection>scm:git:git@github.com:xuanzhaopeng/slim-zalenium.git</developerConnection>
     </scm>
 
     <developers>

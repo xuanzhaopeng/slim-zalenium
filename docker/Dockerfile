@@ -1,7 +1,3 @@
-#== Ubuntu xenial is 16.04, i.e. FROM ubuntu:16.04
-# Find latest images at https://hub.docker.com/r/library/ubuntu/
-# Layer size: big: ~130 MB
-
 FROM ubuntu:xenial-20191024
 ENV UBUNTU_FLAVOR="xenial" \
     UBUNTU_DATE="20191024"
@@ -12,7 +8,7 @@ RUN  echo "deb ${UBUNTU_MIRROR} ${UBUNTU_FLAVOR} main universe\n" > /etc/apt/sou
   && echo "deb ${UBUNTU_MIRROR} ${UBUNTU_FLAVOR}-updates main universe\n" >> /etc/apt/sources.list \
   && echo "deb ${UBUNTU_MIRROR} ${UBUNTU_FLAVOR}-security main universe\n" >> /etc/apt/sources.list
 
-LABEL maintainer "Team EP <diemol+team-ep@gmail.com>"
+LABEL maintainer "Robin Xuan <xuanzhaopeng@gmail.com>"
 
 # No interactive frontend during docker build
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -20,17 +16,17 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # http://askubuntu.com/a/235911/134645
 # Remove with: sudo apt-key del 2EA8F35793D8809A
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A \
-  && apt-key update -qqy
-# Remove with: sudo apt-key del 40976EAF437D05B5
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 \
-  && apt-key update -qqy
-# Remove with: sudo apt-key del 3B4FE6ACC0B21F32
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 \
-  && apt-key update -qqy
-# Remove with: sudo apt-key del A2F683C52980AECF
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2F683C52980AECF \
-  && apt-key update -qqy
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A \
+#   && apt-key update -qqy
+# # Remove with: sudo apt-key del 40976EAF437D05B5
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 \
+#   && apt-key update -qqy
+# # Remove with: sudo apt-key del 3B4FE6ACC0B21F32
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 \
+#   && apt-key update -qqy
+# # Remove with: sudo apt-key del A2F683C52980AECF
+# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2F683C52980AECF \
+#   && apt-key update -qqy
 
 #========================
 # Miscellaneous packages
@@ -211,7 +207,7 @@ RUN apt-get -qqy update \
 # So if you set a build arg of kubernetesSlimVersion=true then
 # the unneeded layers will be excluded
 #==============================================================
-ARG kubernetesSlimVersion=false
+ARG kubernetesSlimVersion=true
 
 #==============================================================
 # Simple Go-based setuid+setgid+setgroups+exec
