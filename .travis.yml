@@ -9,15 +9,6 @@ services:
 
 jobs:
   include:
-    - env: step=dockerCompose
-      if: type = pull_request
-      script:
-      - docker pull elgalu/selenium
-      - curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-      - chmod +x docker-compose
-      - sudo mv docker-compose /usr/local/bin
-      - travis_retry ./run_integration_tests.sh dockerCompose
-
     - env: step=unitTests
       script:
       - sudo apt-get install jq
@@ -28,16 +19,6 @@ jobs:
       - bash <(curl -s https://codecov.io/bash)
       # Report coverage results to Codacy
       - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r ./target/site/jacoco/jacoco.xml
-
-    - env: step=minikube
-      if: type = pull_request
-      script:
-      - docker pull elgalu/selenium
-      - travis_retry ./kubernetes/minikube-ci-initialize.sh
-      - mvn clean package -Pbuild-docker-image -DskipTests=true
-      - cd target && docker build -t dosel/zalenium:latest . && cd ..
-      - ./kubernetes/start-zalenium-in-minikube.sh
-      - ./run_integration_tests.sh minikube
 
     - stage: Push Image (only with a tag)
       if: type != pull_request AND tag IS present

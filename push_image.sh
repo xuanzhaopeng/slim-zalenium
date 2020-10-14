@@ -20,7 +20,7 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ -n "${TRAVIS_TAG}" ] && [ "${TRAVIS
     docker tag zalenium:${TRAVIS_TAG} xuanzhaopeng/slim-zalenium:${TRAVIS_TAG}
     docker push xuanzhaopeng/slim-zalenium:${TRAVIS_TAG} | tee docker_push.log
     docker tag zalenium:${TRAVIS_TAG} xuanzhaopeng/slim-zalenium:latest
-    docker push dosel/slim-zalenium:latest
+    docker push xuanzhaopeng/slim-zalenium:latest
 
 else
 	echo "Image not being pushed, either this is a PR, no tag is set, or the branch is not master."
