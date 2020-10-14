@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.openqa.grid.internal.GridRegistry;
 import org.openqa.grid.web.servlet.RegistryBasedServlet;
 
+import de.zalando.ep.zalenium.container.ContainerClientRegistration;
 import de.zalando.ep.zalenium.proxy.DockerSeleniumRemoteProxy;
 
 /**
@@ -95,6 +96,20 @@ public class VncAuthenticationServlet extends RegistryBasedServlet {
         .findAny()
         .map(x -> AUTHORISED)
         .orElse(UNAUTHORISED);
+
+        if(httpCode != AUTHORISED) {
+            StringBuffer stringBuffer = new StringBuffer();
+
+            StreamSupport.stream(getRegistry().getAllProxies().spliterator(), false).forEach(proxy -> {
+                if(proxy instanceof DockerSeleniumRemoteProxy) {
+                    ContainerClientRegistration registration = ((DockerSeleniumRemoteProxy)proxy).getRegistration();
+                    stringBuffer.append("- Registered node Host: " + registration.getIpAddress() + " port:" + registration.getNoVncPort() + "\n");
+                }
+            });
+            LOGGER.error("VNC auth failed: " + path.orElse("") + "\n"
+                + "Actual Host: " + host.orElse("") + " port:" + port.orElse("") + "\n"
+                + stringBuffer.toString());
+        }
         
         response.setStatus(httpCode);
     }
