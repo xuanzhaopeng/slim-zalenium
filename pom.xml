@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.zalando.ep</groupId>
-    <artifactId>zalenium</artifactId>
-    <version>3.141.59z</version>
-    <name>Zalenium</name>
-    <description>An on-demand, dynamic local Selenium Grid with an extension to a cloud testing platform.</description>
+    <groupId>org.iqalab</groupId>
+    <artifactId>slim-zalenium</artifactId>
+    <version>3.141.59-1.0.0</version>
+    <name>Slim Zalenium</name>
+    <description>An customised version based on Zalando open sourced project Zalenium 3.141.59z</description>
 
     <organization>
         <name>Zalando SE</name>
@@ -25,9 +25,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/zalando/zalenium</url>
-        <connection>scm:git:https://github.com/zalando/zalenium</connection>
-        <developerConnection>scm:git:git@github.com:zalando/zalenium.git</developerConnection>
+        <url>https://github.com/xuanzhaopeng/slim-zalenium</url>
+        <connection>scm:git:https://github.com/xuanzhaopeng/slim-zalenium</connection>
+        <developerConnection>scm:git:git@github.com:xuanzhaopeng/slim-zalenium.git</developerConnection>
     </scm>
 
     <developers>
@@ -507,105 +507,6 @@
                                         <argument>-t</argument>
                                         <argument>${project.artifactId}:${project.version}</argument>
                                         <argument>.</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>integration-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <configuration>
-                            <parallel>methods</parallel>
-                            <threadCount>${threadCountProperty}</threadCount>
-                            <skipAfterFailureCount>10</skipAfterFailureCount>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>${exec-maven-plugin.version}</version>
-                        <executions>
-                            <!-- docker build -->
-                            <execution>
-                                <id>docker-build-zalenium</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${skip.failsafe.setup}</skip>
-                                    <workingDirectory>${project.build.directory}</workingDirectory>
-                                    <executable>docker</executable>
-                                    <arguments>
-                                        <argument>build</argument>
-                                        <argument>-t</argument>
-                                        <argument>${project.artifactId}:${project.version}</argument>
-                                        <argument>.</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <!-- Make zalenium_in_docker.sh executable -->
-                            <execution>
-                                <id>enable-zalenium_in_docker</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <workingDirectory>${project.build.directory}</workingDirectory>
-                                    <executable>chmod</executable>
-                                    <arguments>
-                                        <argument>+x</argument>
-                                        <argument>zalenium_in_docker.sh</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <!-- docker run -->
-                            <execution>
-                                <id>docker-run-zalenium</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${skip.failsafe.setup}</skip>
-                                    <executable>${project.build.directory}/zalenium_in_docker.sh</executable>
-                                    <arguments>
-                                        <argument>start</argument>
-                                        <argument>${project.artifactId}:${project.version}</argument>
-                                        <argument>${integrationToTest}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <!-- docker stop -->
-                            <execution>
-                                <id>docker-stop-zalenium</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${skip.failsafe.setup}</skip>
-                                    <executable>${project.build.directory}/zalenium_in_docker.sh</executable>
-                                    <arguments>
-                                        <argument>stop</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
