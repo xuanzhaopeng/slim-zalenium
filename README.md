@@ -3,6 +3,8 @@
 
 </p>
 
+[![Build Status](https://travis-ci.org/xuanzhaopeng/slim-zalenium.svg?branch=master)](https://travis-ci.org/xuanzhaopeng/slim-zalenium)
+
 --- 
 
 
