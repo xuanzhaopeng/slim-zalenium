@@ -6,7 +6,7 @@
 
     <groupId>org.iqalab</groupId>
     <artifactId>slim-zalenium</artifactId>
-    <version>3.141.59-1.0.0</version>
+    <version>3.141.59-1.1.0</version>
     <name>Slim Zalenium</name>
     <description>An customised version based on Zalando open sourced project Zalenium 3.141.59z</description>
 
