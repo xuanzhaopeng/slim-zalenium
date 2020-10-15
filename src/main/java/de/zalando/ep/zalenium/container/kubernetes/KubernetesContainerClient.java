@@ -678,7 +678,7 @@ public class KubernetesContainerClient implements ContainerClient {
                         // so then we can initiate a registration.
                         .withNewReadinessProbe()
                             .withNewExec()
-                                .addToCommand(new String[] {"curl -s http://`hostname -i`:"
+                                .addToCommand(new String[] {"/bin/sh", "-c", "curl -s http://`hostname -i`:"
                                         + config.getNodePort() + "/wd/hub/status | jq .value.ready | grep true"})
                             .endExec()
                             .withInitialDelaySeconds(5)
