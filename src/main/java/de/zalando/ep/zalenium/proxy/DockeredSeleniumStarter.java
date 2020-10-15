@@ -11,8 +11,6 @@ import java.util.TimeZone;
 
 import com.spotify.docker.client.messages.ContainerInfo;
 import de.zalando.ep.zalenium.container.DockerContainerClient;
-import de.zalando.ep.zalenium.container.swarm.SwarmContainerClient;
-import de.zalando.ep.zalenium.container.swarm.SwarmUtilities;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.openqa.grid.common.RegistrationRequest;
@@ -279,11 +277,6 @@ public class DockeredSeleniumStarter {
         if (hubIpAddress == null) {
             NetworkUtils networkUtils = new NetworkUtils();
             hubIpAddress = networkUtils.getIp4NonLoopbackAddressOfThisMachine().getHostAddress();
-
-            if (SwarmUtilities.isSwarmActive()) {
-                ContainerInfo containerInfo = SwarmUtilities.getContainerByIp(hubIpAddress);
-                hubIpAddress = SwarmUtilities.getSwarmIp(containerInfo);
-            }
         }
 
         return hubIpAddress;
@@ -302,7 +295,7 @@ public class DockeredSeleniumStarter {
         String latestImage = getLatestDownloadedImage(getDockerSeleniumImageName());
 
         int containerPort = LOWER_PORT_BOUNDARY;
-        if (containerClient instanceof DockerContainerClient || containerClient instanceof SwarmContainerClient) {
+        if (containerClient instanceof DockerContainerClient) {
             containerPort = findFreePortInRange();
         }
         Map<String, String> envVars = buildEnvVars(effectiveTimeZone, effectiveScreenSize, hostIpAddress, sendAnonymousUsageInfo,
@@ -346,10 +339,6 @@ public class DockeredSeleniumStarter {
             envVars.put("SELENIUM_NODE_PARAMS", String.format("-remoteHost http://%s:%s", hostIpAddress, containerPort));
         } else {
             envVars.put("SELENIUM_NODE_PARAMS", seleniumNodeParams);
-        }
-
-        if (SwarmUtilities.isSwarmActive()) {
-            envVars.put("SELENIUM_NODE_HOST", "__CONTAINER_IP__");
         }
 
         // Add the proxy vars

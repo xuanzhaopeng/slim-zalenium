@@ -51,7 +51,6 @@ import com.google.gson.JsonParser;
 import de.zalando.ep.zalenium.container.ContainerClient;
 import de.zalando.ep.zalenium.container.ContainerClientRegistration;
 import de.zalando.ep.zalenium.container.ContainerFactory;
-import de.zalando.ep.zalenium.container.swarm.SwarmUtilities;
 import de.zalando.ep.zalenium.dashboard.DashboardCollection;
 import de.zalando.ep.zalenium.dashboard.TestInformation;
 import de.zalando.ep.zalenium.matcher.DockerSeleniumCapabilityMatcher;
@@ -718,11 +717,6 @@ public class DockerSeleniumRemoteProxy extends DefaultRemoteProxy {
 
     @VisibleForTesting
     void copyLogs(final String containerId) {
-        if (SwarmUtilities.isSwarmActive()) {
-            // Disabling logs in swarm mode
-            return;
-        }
-
         if (testInformation == null || StringUtils.isEmpty(containerId)) {
             // No tests run or container has been removed, nothing to copy and nothing to update.
             return;
